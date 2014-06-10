@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html lang="en" ng-app="myApp" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html lang="en" ng-app="myApp" class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html lang="en" ng-app="myApp" class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html lang="en" id="ng-app" ng-app="myApp" class="no-js"> <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>MRQ II Character Sheet</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css">
+  <link rel="stylesheet" href="css/app.css"/>
+  <script src="bower_components/html5-boilerplate/js/vendor/modernizr-2.6.2.min.js"></script>
+</head>
+<body>
+    <!-- Fixed navbar -->
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#">MRQ II Character Sheet</a>
+        </div>
+      </div>
+    </div>
+    
+    <!--[if lt IE 7]>
+      <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+    
+    <!-- Begin page content -->
+    <div class="container" ng-controller="SheetCtrl">
+      
+        <div class="col-12">
+            <div class="btn-toolbar" role="toolbar">
+              <div class="btn-group">
+                <button type="button" class="btn btn-default" ng-click="new()"><span class="glyphicon glyphicon-plus"></span> New</button>
+              </div>
+            </div>
+        </div><br />
+        
+        <div>
+            <tabset>
+                <tab ng-repeat="tab in tabs" active="tab.active">
+                    <tab-heading>
+                        <button class="close closeTab" type="button" ng-click="close(tab)" >x</button>{{tab.name}}
+                    </tab-heading>
+                    <form class="form-horizontal" role="form">
+                      <div class="form-group">
+                        <label for="player{{tab.id}}" class="col-sm-offset-8 col-sm-2 control-label">Player</label>
+                        <div class="col-sm-2">
+                            <input type="text" class="form-control" id="player{{tab.id}}" placeholder="Player" ng-model="tab.player" />
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label for="adventurer{{tab.id}}" class="col-sm-offset-8 col-sm-2 control-label">Adventurer</label>
+                        <div class="col-sm-2">
+                            <input type="text" class="form-control" id="adventurer{{tab.id}}" placeholder="Adventurer" ng-model="tab.name" />
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label for="race{{tab.id}}" class="col-sm-1 control-label">Race</label>
+                        <div class="col-sm-2">
+                            <input type="text" class="form-control" id="race{{tab.id}}" ng-model="tab.race" />
+                        </div>
+                        
+                        <label for="Age{{tab.id}}" class="col-sm-1 control-label">Age</label>
+                        <div class="col-sm-2">
+                            <input type="number" class="form-control" id="age{{tab.id}}" ng-model="tab.age" />
+                        </div>
+                        
+                        <label for="HeroPoints{{tab.id}}" class="col-sm-offset-2 col-sm-2 control-label">Hero Points</label>
+                        <div class="col-sm-2">
+                            <input type="number" class="form-control" id="HeroPoints{{tab.id}}" ng-model="tab.heroPoints" />
+                        </div>
+                      </div>
+                      
+                      <div class="form-group">
+                        <label for="homeland{{tab.id}}" class="col-sm-1 control-label">Homeland</label>
+                        <div class="col-sm-2">
+                            <input type="text" class="form-control" id="homeland{{tab.id}}" ng-model="tab.homeland" />
+                        </div>
+                        
+                        <label for="gender{{tab.id}}" class="col-sm-1 control-label">Gender</label>
+                        <div class="col-sm-2">
+                            <select class="form-control" id="gender{{tab.id}}" ng-model="tab.gender">
+                                <option value="">-- choose gender --</option>
+                                <option value="male">Male</option>
+                                <option value="female">Female</option>
+                            </select>
+                        </div>
+                      </div>
+                      
+                      <div class="form-group">
+                        <label for="culture{{tab.id}}" class="col-sm-1 control-label">Culture</label>
+                        <div class="col-sm-2">
+                            <input type="text" class="form-control" id="culture{{tab.id}}" ng-model="tab.culture" />
+                        </div>
+                      </div>
+                    
+                      <div class="form-group">
+                        <label for="profession{{tab.id}}" class="col-sm-1 control-label">Profession</label>
+                        <div class="col-sm-2">
+                            <input type="text" class="form-control" id="profession{{tab.id}}" ng-model="tab.profession" />
+                        </div>
+                        
+                        <label for="family{{tab.id}}" class="col-sm-1 control-label">Family</label>
+                        <div class="col-sm-2">
+                            <input type="text" class="form-control" id="family{{tab.id}}" ng-model="tab.family" />
+                        </div>
+                      </div>
+                      
+                      <div class="form-group">
+                          <div class="col-sm-6">
+                            <h4>Characteristics and Attributes</h4>
+                              <div class="row">
+                                <div class="col-sm-2">
+                                    <input type="number" class="col-sm-1 form-control" ng-model="tab.str" />
+                                </div>
+                                <label class="col-sm-1 control-label">STR</label>
+                                
+                                <label class="col-sm-offset-1 col-sm-4 control-label">Combat Actions: {{combatActions(tab)}}</label>
+                              </div>
+                              <div  class="row">
+                                <div class="col-sm-2">
+                                    <input type="number" class="col-sm-1 form-control" ng-model="tab.con" />
+                                </div>
+                                <label class="col-sm-1 control-label">CON</label>
+                                
+                                <label class="col-sm-offset-1 col-sm-4 control-label">Damage Mod: {{damageMod(tab)}}</label>
+                              </div>
+                              <div  class="row">
+                                <div class="col-sm-2">
+                                    <input type="number" class="col-sm-1 form-control" ng-model="tab.siz" />
+                                </div>
+                                <label class="col-sm-1 control-label">SIZ</label>
+                                
+                                <label class="col-sm-offset-1 col-sm-4 control-label">Improvement Mod: {{impMod(tab)}}</label>
+                              </div>
+                              <div class="row" >
+                                <div class="col-sm-2">
+                                    <input type="number" class="col-sm-1 form-control" ng-model="tab.int" />
+                                </div>
+                                <label class="col-sm-1 control-label">INT</label>
+                                
+                                <label class="col-sm-offset-1 col-sm-4 control-label">Movement: 8m</label>
+                              </div>
+                              <div class="row" >
+                                <div class="col-sm-2">
+                                    <input type="number" class="col-sm-1 form-control" ng-model="tab.pow" />
+                                </div>
+                                <label class="col-sm-1 control-label">POW</label>
+                              </div>
+                              <div class="row" >
+                                <div class="col-sm-2">
+                                    <input type="number" class="col-sm-1 form-control" ng-model="tab.dex" />
+                                </div>
+                                <label class="col-sm-1 control-label">DEX</label>
+                                
+                                <label class="col-sm-offset-1 col-sm-4 control-label">Magic Points: {{magicPoints(tab)}}</label>
+                              </div>
+                              <div class="row" >
+                                <div class="col-sm-2">
+                                    <input type="number" class="col-sm-1 form-control" ng-model="tab.cha" />
+                                </div>
+                                <label class="col-sm-1 control-label">CHA</label>
+                                
+                                <label class="col-sm-offset-1 col-sm-4 control-label">Strike Rank: {{strikeRank(tab)}}</label>
+                              </div>
+                          </div>
+                          <div class="col-sm-6">
+                            <h4>Armor</h4>
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Roll</th>
+                                        <th>Location</th>
+                                        <th class="col-sm-2">AP</th>
+                                        <th>HP</th>
+                                        <th>Type</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>1-3</td>
+                                        <td>R Leg</td>
+                                        <td><input class="form-control" type="number" ng-model="tab.rlegAp" /></td>
+                                        <td>{{calcHp(tab).rlegHp }}</td>
+                                        <td><input type="text" ng-model="tab.rlegType" /></td>
+                                    </tr>
+                                    <tr>
+                                        <td>4-6</td>
+                                        <td>L Leg</td>
+                                        <td><input class="form-control" type="number" ng-model="tab.llegAp" /></td>
+                                        <td>{{calcHp(tab).llegHp}}</td>
+                                        <td><input type="text" ng-model="tab.llegType" /></td>
+                                    </tr>
+                                    <tr>
+                                        <td>7-9</td>
+                                        <td>Abdomen</td>
+                                        <td><input class="form-control" type="number" ng-model="tab.abdomenAp" /></td>
+                                        <td>{{calcHp(tab).abdomenHp}}</td>
+                                        <td><input type="text" ng-model="tab.abdomenType" /></td>
+                                    </tr>
+                                    <tr>
+                                        <td>10-12</td>
+                                        <td>Chest</td>
+                                        <td><input class="form-control" type="number" ng-model="tab.chestAp" /></td>
+                                        <td>{{calcHp(tab).chestHp}}</td>
+                                        <td><input type="text" ng-model="tab.chestType" /></td>
+                                    </tr>
+                                    <tr>
+                                        <td>13-15</td>
+                                        <td>R Arm</td>
+                                        <td><input class="form-control" type="number" ng-model="tab.rarmAp" /></td>
+                                        <td>{{calcHp(tab).rarmHp}}</td>
+                                        <td><input type="text" ng-model="tab.rarmType" /></td>
+                                    </tr>
+                                    <tr>
+                                        <td>16-18</td>
+                                        <td>L Arm</td>
+                                        <td><input class="form-control" type="number" ng-model="tab.larmAp" /></td>
+                                        <td>{{calcHp(tab).larmHp}}</td>
+                                        <td><input type="text" ng-model="tab.larmType" /></td>
+                                    </tr>
+                                    <tr>
+                                        <td>19-20</td>
+                                        <td>Head</td>
+                                        <td><input class="form-control" type="number" ng-model="tab.headAp" /></td>
+                                        <td>{{calcHp(tab).headHp}}</td>
+                                        <td><input type="text" ng-model="tab.headType" /></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <th colspan="2">Armor Penalty</td>
+                                        <td>{{armorPenalty(tab)}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <div class="col-sm-6">
+                            <h4>Common Skills</h4>
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Skill</th>
+                                        <th>Basic %</th>
+                                        <th>Ranks</th>
+                                        <th>Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="skill in commonSkills">
+                                        <td>{{skill.name}}</td>
+                                        <td>{{skill.basicA}} + {{skill.basicB}}</td>
+                                        <td><input type="number" ng-model="tab.ranks[skill.name]" /></td>
+                                        <td>{{calcTotal(skill, tab)}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                          </div>
+                        </div>
+                    </form>
+                </tab>
+            </tabset>
+        </div>      
+    </div>
+    
+    <div id="footer">
+      <div class="container">
+        <p class="text-muted">MRQ II Char Sheet: v<span app-version></span></p>
+      </div>
+    </div>
+  
+  <script src="bower_components/angular/angular.js"></script>
+  <!--<script src="bower_components/angular-route/angular-route.js"></script>-->
+  <script src="bower_components/jquery/dist/jquery.min.js"></script>
+  <!--<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>-->
+  <script src="js/angular-ui.js"></script>
+  <script src="bower_components/underscore/underscore-min.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/services.js"></script>
+  <script src="js/controllers.js"></script>
+  <script src="js/filters.js"></script>
+  <script src="js/directives.js"></script>
+</body>
+</html>
